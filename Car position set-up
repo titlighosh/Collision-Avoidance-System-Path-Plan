@@ -1,0 +1,26 @@
+def position(self):
+    return (self.x, self.y)
+
+def set_position(self, x, y):
+    self.x = x
+    self.y = y
+
+def set_radius(self, radius):
+    self.radius = radius
+
+def get_radius(self):
+    return self.radius
+
+def forward(self, distance):
+    self.move(0, distance)
+
+def backward(self, distance):
+    self.move(0, -distance)
+
+def turn_left(self, angle):
+    # Assuming angle is in degrees
+    self.x, self.y = self.y, -self.x
+
+def turn_right(self, angle):
+    # Assuming angle is in degrees
+    self.x, self.y = -self.y, self.x
