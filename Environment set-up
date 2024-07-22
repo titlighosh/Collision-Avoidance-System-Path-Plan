@@ -1,0 +1,18 @@
+class Environment:
+    def _init_(self, width, height):
+        self.width = width
+        self.height = height
+        self.obstacles = set()
+        self.goal = (8, 8)  # Define the goal location
+
+    def add_obstacle(self, x, y):
+        self.obstacles.add((x, y))
+
+    def is_obstacle(self, x, y):
+        return (x, y) in self.obstacles
+
+    def is_goal(self, x, y):
+        return (x, y) == self.goal
+
+    def heuristic(self, position):
+        return abs(position[0] - self.goal[0]) + abs(position[1] - self.goal[1])
