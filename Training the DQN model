@@ -1,0 +1,24 @@
+def q_learning(env, robot, num_episodes=1000, alpha=0.1, gamma=0.6, epsilon=0.1):
+    input_dim = 2  # (x, y) coordinates
+    output_dim = 4  # 4 actions (up, down, left, right)
+    
+    model = DQN(input_dim, output_dim)
+    optimizer = optim.Adam(model.parameters(), lr=alpha)
+    criterion = nn.MSELoss()
+    
+    trajectory = []
+
+    for episode in range(num_episodes):
+        state = torch.tensor([robot.x, robot.y], dtype=torch.float32)
+        trajectory.append((robot.x, robot.y))
+
+        while True:
+            # Choose an action (epsilon-greedy)
+            if random.uniform(0, 1) < epsilon:
+                action = random.randint(0, output_dim - 1)  # Random action
+            else:
+                q_values = model(state)
+                # Get the heuristic value from A* search
+                heuristic_value = env.heuristic(robot.x, robot.y)
+                # Combine the Q-value and heuristic value to select the action
+                action = torch.argmax(q_values + gamma * torch.tensor(heuristic_value)).item()
